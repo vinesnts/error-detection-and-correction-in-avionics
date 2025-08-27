@@ -62,8 +62,10 @@ class Hamming():
             res = res ^ bit
         return res
 
-    def remove_parity(self, data):
+    def remove_parity(self, data, error):
         data = list(data)
+        if error != 0:
+            data[error-1] = str(int(not int(data[error-1])))
         for idx in self.list_parity_bit_positions:
             data[idx-1] = None
 
@@ -84,7 +86,7 @@ class Hamming():
         else:
             print("\nBit in positions", error, "is flipped!")
 
-        data = self.remove_parity(data)
+        data = self.remove_parity(data, error)
         message = (chr(int(data, 2)))
         print("[BYTE DECODED] Data:", data, "\nMessage:", message)
         return error
