@@ -41,12 +41,14 @@ class Parity:
         return "".join(str(i) for i in parity)
 
     def encode_odd_data(self, data):
+        print(data)
         parity = [int(i) for i in list(data)]
+        print(parity)
         if sum(parity) % 2 != 0:
-            parity.insert(0, '0')
+            parity.append('0')
         else:
-            parity.insert(0, '1')
-
+            parity.append('1')
+        print(parity)
         return "".join(str(i) for i in parity)
 
     def decode_even_data(self, data):
