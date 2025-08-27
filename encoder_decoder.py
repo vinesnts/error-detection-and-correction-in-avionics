@@ -19,7 +19,7 @@ class EncoderDecoder:
         return has_error
 
     def decode_data_crc(self, data):
-        key = "100011"
+        key = "1001"
         ans = []
         
         for i in range(len(data)//10):
@@ -48,7 +48,7 @@ class EncoderDecoder:
         return self.parity.encode_odd_data(data)
 
     def encode_data_crc(self, data):
-        key = "100011"
+        key = "1001"
         return self.crc.encode_data(data, key)
 
     def encode_data_hamming(self, data):
