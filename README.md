@@ -1,6 +1,6 @@
-# Error Detection and Correction Algorithms in Python
+# Error Detection and Correction Algorithms in Python in Avionics Contexts
 
-In this repository, we have the implementation from scratch of some error detection and correction algorithms used in computer networks.
+In this repository, we have the implementation from scratch of some error detection and correction algorithms used in avionics and computer networks.
 
 ## Installation
 
@@ -52,68 +52,42 @@ After that, we will have a venv folder in the directory. Then, run:
 C:\Users\Guy\Download\error_detection> .\venv\Scripts\bin\activate.bat 
 ```
 
-Now you have the virtual environment activated.
+Now, you have the virtual environment activated.
 
 ## Usage
 
-![img](img/error_algorithm_project.png)
+![img](img/architecture.png)
 
-Execute first the server, so the router and client will have who connect with. You need to have three terminal windows opened, and they need to have the virtual environment activated. Also, you have to pass the name of the algorithm as argument when running the server.py.
+The goal is to connect and communicate two End-Systems (ES) with the help of a Switch.
+
+The switch should be executed first, then, the ESs can be started. Thus, you need to open three terminal windows, all terminal windows must have the virtual environment activated. 
+
+To execute the switch you can simply call the [switch.py](switch.py) with or without the `redundancy` and `error` as arguments.
 ```bash
-(error-detection) $ python server.py -a crc
+(error-detection) $ python switch.py
 ```
 or
 ```bash
-(error-detection) $ python server.py --algorithm hamming
+(error-detection) $ python switch.py --redundancy 2 -error 1
 ```
+The `redundancy` argument indicates the number of switches to initialize, creating a redundancy in the communication. The `error` argument indicates the switch index to inject error into.
 
-Then you run the router, setting if it will cause errors or not.
+To execute the ES you have to pass the name of the `algorithm` and the switches `ports` as arguments when running the [es.py](es.py).
 ```bash
-(error-detection) $ python router.py -e
+(error-detection) $ python es.py --algorithm crc -ports 12345
 ```
-or
-```bash
-(error-detection) $ python router.py --error
-```
+The `algorithm` options are: parity, crc, and hamming. The `ports` arguments accepts the ports of the switches to tell the ES to connect to.
 
-Now you can run the client, but in another terminal window. Remember you have to pass the same algorithm that you passed for the server.
-```bash
-(error-detection) $ python client.py -a crc
-```
-or
-```bash
-(error-detection) $ python client.py --algorithm hamming
-```
-
-The algorithm options are: parity, crc, hamming, reed-solomon. Suppose you want to run the Reed-Solomon algorithm, so you have to run the server, router and the client, respectively, as follows:
-
-First terminal window
-```bash
-(error-detection) $ python server.py --algorithm parity
-```
-
-Second terminal window
-```bash
-(error-detection) $ python router.py -e
-```
-
-Third terminal window
-```bash
-(error-detection) $ python client.py --algorithm parity
-```
 
 ## File Description
 
 ```bash
 ├── README.md # this file
 ├── img # folder that contains the image used in the README.md
-└── error-detection # folder that contains all the code
-    ├── algorithms # folder that contains the algorithm implementations
-    │   ├── crc.py # Cyclic Redundancy Check implementation
-    │   ├── hamming.py # Hamming Code implementation
-    │   ├── parity.py # Odd Parity Error Detection implementation
-    │   └── reed_solomon.py # Reed-Solomon Code implementation
-    ├── client.py # Simulating the client side, where it sends a message to the server
-    ├── router.py # Simulating a router, where errors can be added to the bit chain
-    └── server.py # Simulating the server side, where the message is processed and it verifies if the message contains any error
+├── algorithms # folder that contains the algorithm implementations
+│   ├── crc.py # Cyclic Redundancy Check implementation
+│   ├── hamming.py # Hamming Code implementation
+│   └── parity.py # Odd Parity Error Detection implementation
+├── switch.py # Simulating the switch, which transfer the messages between the ESs.
+└── es.py # Simulating a End-System, sends messages to other End-Systems through the switch.
 ```

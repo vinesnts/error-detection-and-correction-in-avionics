@@ -1,10 +1,9 @@
-from math import e
 import socket
 import argparse
 import threading
 
 
-def initialize_switch(with_error, args):
+def initialize_switch(with_error):
     connected_es = []
     switch_port = 12345
 
@@ -78,7 +77,7 @@ if __name__ == '__main__':
     print("Redundancy level:", args["redundancy"])
 
     for i in range(args["redundancy"]):
-        threading.Thread(target=initialize_switch, args=(args["error"] == i + 1, args), daemon=True).start()
+        threading.Thread(target=initialize_switch, args=(args["error"] == i + 1,), daemon=True).start()
 
     try:
         while True:
